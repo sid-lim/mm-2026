@@ -103,7 +103,7 @@ function RegionSection({ region, onTeamClick }: { region: RegionData; onTeamClic
 
           {/* Sweet 16 (Round of 32) */}
           <div className="mb-6 border-t border-slate-100 pt-4">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 font-stat">Sweet 16 (Round of 32)</h3>
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 font-stat">Second Round (Round of 32)</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {region.round32Matchups.map((matchup) => (
                 <MatchupCard key={matchup.id} matchup={matchup} color={region.color} onTeamClick={onTeamClick} />
@@ -113,7 +113,7 @@ function RegionSection({ region, onTeamClick }: { region: RegionData; onTeamClic
 
           {/* Elite Eight Matchups */}
           <div className="border-t border-slate-100 pt-4 mb-4">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 font-stat">Elite Eight Matchups</h3>
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 font-stat">Sweet 16 (Regional Semifinals)</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {region.eliteEightMatchups.map((matchup) => (
                 <MatchupCard key={matchup.id} matchup={matchup} color={region.color} onTeamClick={onTeamClick} />
@@ -123,7 +123,7 @@ function RegionSection({ region, onTeamClick }: { region: RegionData; onTeamClic
 
           {/* Regional Finals (Round of 16) */}
           <div className="border-t border-slate-100 pt-4 mb-4">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 font-stat">Regional Finals (Round of 16)</h3>
+            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 font-stat">Elite Eight (Regional Finals)</h3>
             <div className="grid grid-cols-1 gap-3">
               <MatchupCard matchup={region.regionalFinals} color={region.color} onTeamClick={onTeamClick} />
             </div>
@@ -135,7 +135,7 @@ function RegionSection({ region, onTeamClick }: { region: RegionData; onTeamClic
             <div className="grid grid-cols-3 gap-3">
               {/* Sweet 16 */}
               <div>
-                <div className="text-xs font-semibold text-slate-600 mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>Sweet 16 (4 teams)</div>
+                <div className="text-xs font-semibold text-slate-600 mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>Sweet 16 (4 teams per region)</div>
                 <div className="space-y-1">
                   {region.sweetSixteen.map((team) => (
                     <div key={team} className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold text-white" style={{ backgroundColor: region.color, fontFamily: 'Oswald, sans-serif' }}>
@@ -146,7 +146,7 @@ function RegionSection({ region, onTeamClick }: { region: RegionData; onTeamClic
               </div>
               {/* Elite 8 Teams */}
               <div>
-                <div className="text-xs font-semibold text-slate-600 mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>Elite Eight (2 teams)</div>
+                <div className="text-xs font-semibold text-slate-600 mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>Elite Eight (2 teams per region)</div>
                 <div className="space-y-1">
                   {region.eliteEightMatchups.map((matchup) => {
                     const winner = matchup.predictedWinner === 1 ? matchup.team1.shortName : matchup.team2.shortName;
@@ -160,7 +160,7 @@ function RegionSection({ region, onTeamClick }: { region: RegionData; onTeamClic
               </div>
               {/* Final Four */}
               <div>
-                <div className="text-xs font-semibold text-slate-600 mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>Final Four (1 team)</div>
+                <div className="text-xs font-semibold text-slate-600 mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>Final Four (1 team per region)</div>
                 <div className="px-2 py-1 rounded-md text-xs font-bold text-white text-center animate-pulse-glow" style={{ backgroundColor: region.color, fontFamily: 'Oswald, sans-serif', boxShadow: `0 0 12px ${region.color}40` }}>
                   🏆 {region.finalFour}
                 </div>
@@ -183,7 +183,7 @@ export default function BracketView({ onTeamClick }: BracketViewProps) {
             STATISTICAL BRACKET PREDICTIONS
           </h2>
           <p className="text-slate-400 text-sm mt-1">
-            All 4 rounds: First Round (64 teams) → Round of 32 (32 teams) → Elite Eight (8 teams) → Final Four (4 teams) → Championship. Click any team for detailed stats.
+            All 4 rounds: First Round (64 teams) → Second Round (32 teams) → Elite Eight (8 teams) → Final Four (4 teams) → Championship. Click any team for detailed stats.
           </p>
         </div>
         <div className="flex gap-3 flex-shrink-0">
