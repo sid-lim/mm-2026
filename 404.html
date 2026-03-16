@@ -2,12 +2,12 @@
 <html>
   <head>
     <script>
-      const path = window.location.pathname;
-      const search = window.location.search;
-      const hash = window.location.hash;
-      const redirect = window.location.origin + '/mm-2026/?p=' +
-        encodeURIComponent(path + search) + hash;
-      window.location.replace(redirect);
+      const l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        '/mm-2026/?p=' + encodeURIComponent(l.pathname.slice('/mm-2026'.length) + l.search) +
+        l.hash
+      );
     </script>
   </head>
 </html>
