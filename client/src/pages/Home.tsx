@@ -10,16 +10,42 @@ import BracketView from '@/components/BracketView';
 import StatsView from '@/components/StatsView';
 import UpsetPicksView from '@/components/UpsetPicksView';
 import TeamModal from '@/components/TeamModal';
+import { useTheme } from '@/contexts/ThemeContext';
 import type { Team } from '@/lib/bracketData';
 
 type Tab = 'bracket' | 'stats' | 'upsets';
 
+function DarkModeToggle() {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === 'dark';
+
+  return (
+    <button
+      onClick={toggleTheme}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      className="flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all text-xs font-semibold"
+      style={{
+        fontFamily: 'Oswald, sans-serif',
+        letterSpacing: '0.05em',
+        background: isDark ? 'oklch(0.22 0.02 240)' : 'oklch(0.96 0.002 240)',
+        borderColor: isDark ? 'oklch(0.35 0.015 240)' : 'oklch(0.82 0.008 240)',
+        color: isDark ? 'oklch(0.85 0.005 240)' : 'oklch(0.35 0.02 240)',
+      }}
+    >
+      <span style={{ fontSize: '0.9rem' }}>{isDark ? '☀️' : '🌙'}</span>
+      {isDark ? 'LIGHT' : 'DARK'}
+    </button>
+  );
+}
+
 export default function Home() {
   const [activeTab, setActiveTab] = useState<Tab>('bracket');
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   return (
-    <div className="min-h-screen bg-[#F7F8FA]">
+    <div className={`min-h-screen ${isDark ? 'bg-[#0D1117]' : 'bg-[#F7F8FA]'}`}>
       {/* Hero Banner */}
       <header
         className="relative overflow-hidden"
@@ -74,8 +100,14 @@ export default function Home() {
       </header>
 
       {/* Navigation Tabs */}
-      <div className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
-        <div className="container">
+      <div
+        className="sticky top-0 z-40 border-b shadow-sm"
+        style={{
+          background: isDark ? 'oklch(0.18 0.02 240)' : 'white',
+          borderColor: isDark ? 'oklch(0.28 0.015 240)' : 'oklch(0.88 0.008 240)',
+        }}
+      >
+        <div className="container flex items-center justify-between">
           <nav className="flex gap-0">
             {[
               { id: 'bracket' as Tab, label: 'Full Bracket', icon: '🏀' },
@@ -88,6 +120,8 @@ export default function Home() {
                 className={`px-5 py-4 text-sm font-semibold transition-all border-b-2 -mb-px ${
                   activeTab === tab.id
                     ? 'border-blue-700 text-blue-700'
+                    : isDark
+                    ? 'border-transparent text-slate-400 hover:text-slate-200 hover:border-slate-500'
                     : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300'
                 }`}
                 style={{ fontFamily: 'Oswald, sans-serif', letterSpacing: '0.05em' }}
@@ -97,6 +131,7 @@ export default function Home() {
               </button>
             ))}
           </nav>
+          <DarkModeToggle />
         </div>
       </div>
 
@@ -114,8 +149,11 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-slate-400 py-8 mt-12">
-        <div className="container text-center">
+      <footer
+        className="py-8 mt-12"
+        style={{ background: isDark ? 'oklch(0.10 0.02 240)' : 'oklch(0.15 0.02 240)' }}
+      >
+        <div className="container text-center text-slate-400">
           <p className="text-sm">
             <span style={{ fontFamily: 'Oswald, sans-serif' }} className="text-white text-base">2026 NCAA March Madness Bracket</span>
           </p>
