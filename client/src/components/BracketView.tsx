@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { regions, finalFourPrediction, type Team, type Matchup, type RegionData } from '@/lib/bracketData';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface BracketViewProps {
   onTeamClick: (team: Team) => void;
@@ -22,42 +23,68 @@ function SeedBadge({ seed, color }: { seed: number; color: string }) {
   );
 }
 
-function WinProbBar({ prob, color }: { prob: number; color: string }) {
+function WinProbBar({ prob, color, isDark }: { prob: number; color: string; isDark: boolean }) {
   return (
-    <div className="w-full h-1 bg-slate-100 rounded-full overflow-hidden">
+    <div className="w-full h-1 rounded-full overflow-hidden" style={{ backgroundColor: isDark ? 'oklch(0.28 0.015 240)' : 'oklch(0.94 0.005 240)' }}>
       <div className="h-full rounded-full win-prob-bar" style={{ width: `${prob}%`, backgroundColor: color }} />
     </div>
   );
 }
 
-function MatchupCard({ matchup, color, onTeamClick }: { matchup: Matchup; color: string; onTeamClick: (team: Team) => void }) {
+function MatchupCard({ matchup, color, onTeamClick, isDark }: { matchup: Matchup; color: string; onTeamClick: (team: Team) => void; isDark: boolean }) {
   const { team1, team2, predictedWinner, winProb1, upsetAlert } = matchup;
   const winProb2 = 100 - winProb1;
 
+  const cardBg = isDark ? 'oklch(0.20 0.02 240)' : 'white';
+  const cardBorder = isDark ? 'oklch(0.30 0.015 240)' : 'oklch(0.88 0.008 240)';
+  const hoverBg = isDark ? 'oklch(0.24 0.02 240)' : 'oklch(0.97 0.002 240)';
+  const dividerColor = isDark ? 'oklch(0.26 0.015 240)' : 'oklch(0.93 0.005 240)';
+  const textColor = isDark ? 'oklch(0.88 0.005 240)' : 'oklch(0.15 0.02 240)';
+  const mutedColor = isDark ? 'oklch(0.55 0.015 240)' : 'oklch(0.55 0.015 240)';
+
   return (
-    <div className="matchup-card bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" style={{ borderLeftWidth: '3px', borderLeftColor: color }}>
+    <div
+      className="matchup-card rounded-lg overflow-hidden shadow-sm"
+      style={{
+        backgroundColor: cardBg,
+        border: `1px solid ${cardBorder}`,
+        borderLeftWidth: '3px',
+        borderLeftColor: color,
+      }}
+    >
       {upsetAlert && (
         <div className="text-xs font-bold px-2 py-0.5 text-white" style={{ backgroundColor: '#F59E0B', fontFamily: 'Oswald, sans-serif' }}>
           ⚡ UPSET ALERT
         </div>
       )}
-      <div className={`flex items-center px-2 py-1.5 cursor-pointer hover:bg-slate-50 transition-colors ${predictedWinner === 1 ? '' : 'opacity-60'}`} onClick={() => onTeamClick(team1)}>
+      <div
+        className={`flex items-center px-2 py-1.5 cursor-pointer transition-colors ${predictedWinner === 1 ? '' : 'opacity-60'}`}
+        style={{ '--hover-bg': hoverBg } as React.CSSProperties}
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = hoverBg)}
+        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+        onClick={() => onTeamClick(team1)}
+      >
         <SeedBadge seed={team1.seed} color={color} />
-        <span className="text-xs flex-1 truncate font-semibold" style={{ fontFamily: 'Oswald, sans-serif' }}>{team1.shortName}</span>
-        <span className="text-xs font-stat text-slate-400 ml-1 flex-shrink-0">{team1.record}</span>
+        <span className="text-xs flex-1 truncate font-semibold" style={{ fontFamily: 'Oswald, sans-serif', color: textColor }}>{team1.shortName}</span>
+        <span className="text-xs font-stat ml-1 flex-shrink-0" style={{ color: mutedColor }}>{team1.record}</span>
         {predictedWinner === 1 && <span className="ml-1 text-yellow-500 text-xs">★</span>}
       </div>
-      <div className="px-2 pb-1"><WinProbBar prob={winProb1} color={color} /></div>
-      <div className="border-t border-slate-100 mx-2" />
-      <div className={`flex items-center px-2 py-1.5 cursor-pointer hover:bg-slate-50 transition-colors ${predictedWinner === 2 ? '' : 'opacity-60'}`} onClick={() => onTeamClick(team2)}>
+      <div className="px-2 pb-1"><WinProbBar prob={winProb1} color={color} isDark={isDark} /></div>
+      <div className="mx-2" style={{ borderTop: `1px solid ${dividerColor}` }} />
+      <div
+        className={`flex items-center px-2 py-1.5 cursor-pointer transition-colors ${predictedWinner === 2 ? '' : 'opacity-60'}`}
+        onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = hoverBg)}
+        onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+        onClick={() => onTeamClick(team2)}
+      >
         <SeedBadge seed={team2.seed} color={color} />
-        <span className="text-xs flex-1 truncate font-semibold" style={{ fontFamily: 'Oswald, sans-serif' }}>{team2.shortName}</span>
-        <span className="text-xs font-stat text-slate-400 ml-1 flex-shrink-0">{team2.record}</span>
+        <span className="text-xs flex-1 truncate font-semibold" style={{ fontFamily: 'Oswald, sans-serif', color: textColor }}>{team2.shortName}</span>
+        <span className="text-xs font-stat ml-1 flex-shrink-0" style={{ color: mutedColor }}>{team2.record}</span>
         {predictedWinner === 2 && <span className="ml-1 text-yellow-500 text-xs">★</span>}
       </div>
-      <div className="px-2 pb-1"><WinProbBar prob={winProb2} color={color} /></div>
+      <div className="px-2 pb-1"><WinProbBar prob={winProb2} color={color} isDark={isDark} /></div>
       <div className="px-2 pb-1.5 flex justify-between items-center">
-        <span className="text-xs text-slate-400 font-stat">Win Prob</span>
+        <span className="text-xs font-stat" style={{ color: mutedColor }}>Win Prob</span>
         <span className="text-xs font-bold font-stat" style={{ color }}>
           {predictedWinner === 1 ? team1.shortName : team2.shortName}: {predictedWinner === 1 ? winProb1 : winProb2}%
         </span>
@@ -66,8 +93,14 @@ function MatchupCard({ matchup, color, onTeamClick }: { matchup: Matchup; color:
   );
 }
 
-function RegionSection({ region, onTeamClick }: { region: RegionData; onTeamClick: (team: Team) => void }) {
+function RegionSection({ region, onTeamClick, isDark }: { region: RegionData; onTeamClick: (team: Team) => void; isDark: boolean }) {
   const [expanded, setExpanded] = useState(true);
+
+  const bodyBg = isDark ? 'oklch(0.17 0.02 240)' : 'white';
+  const bodyBorder = isDark ? 'oklch(0.28 0.015 240)' : 'oklch(0.88 0.008 240)';
+  const sectionDivider = isDark ? 'oklch(0.24 0.015 240)' : 'oklch(0.93 0.005 240)';
+  const labelColor = isDark ? 'oklch(0.55 0.015 240)' : 'oklch(0.55 0.015 240)';
+  const subLabelColor = isDark ? 'oklch(0.65 0.01 240)' : 'oklch(0.45 0.015 240)';
 
   return (
     <div className="mb-8">
@@ -90,52 +123,59 @@ function RegionSection({ region, onTeamClick }: { region: RegionData; onTeamClic
       </div>
 
       {expanded && (
-        <div className="bg-white rounded-b-xl border border-t-0 border-slate-200 shadow-sm p-4" style={{ borderTopColor: region.color }}>
+        <div
+          className="rounded-b-xl shadow-sm p-4"
+          style={{
+            backgroundColor: bodyBg,
+            border: `1px solid ${bodyBorder}`,
+            borderTop: 'none',
+          }}
+        >
           {/* First Round Matchups */}
           <div className="mb-6">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 font-stat">First Round (Round of 64)</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 font-stat" style={{ color: labelColor }}>First Round (Round of 64)</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {region.matchups.map((matchup) => (
-                <MatchupCard key={matchup.id} matchup={matchup} color={region.color} onTeamClick={onTeamClick} />
+                <MatchupCard key={matchup.id} matchup={matchup} color={region.color} onTeamClick={onTeamClick} isDark={isDark} />
               ))}
             </div>
           </div>
 
-          {/* Sweet 16 (Round of 32) */}
-          <div className="mb-6 border-t border-slate-100 pt-4">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 font-stat">Second Round (Round of 32)</h3>
+          {/* Second Round (Round of 32) */}
+          <div className="mb-6 pt-4" style={{ borderTop: `1px solid ${sectionDivider}` }}>
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 font-stat" style={{ color: labelColor }}>Second Round (Round of 32)</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {region.round32Matchups.map((matchup) => (
-                <MatchupCard key={matchup.id} matchup={matchup} color={region.color} onTeamClick={onTeamClick} />
+                <MatchupCard key={matchup.id} matchup={matchup} color={region.color} onTeamClick={onTeamClick} isDark={isDark} />
               ))}
             </div>
           </div>
 
-          {/* Elite Eight Matchups */}
-          <div className="border-t border-slate-100 pt-4 mb-4">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 font-stat">Sweet 16 (Regional Semifinals)</h3>
+          {/* Sweet 16 */}
+          <div className="pt-4 mb-4" style={{ borderTop: `1px solid ${sectionDivider}` }}>
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 font-stat" style={{ color: labelColor }}>Sweet 16 (Regional Semifinals)</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {region.eliteEightMatchups.map((matchup) => (
-                <MatchupCard key={matchup.id} matchup={matchup} color={region.color} onTeamClick={onTeamClick} />
+                <MatchupCard key={matchup.id} matchup={matchup} color={region.color} onTeamClick={onTeamClick} isDark={isDark} />
               ))}
             </div>
           </div>
 
-          {/* Regional Finals (Round of 16) */}
-          <div className="border-t border-slate-100 pt-4 mb-4">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 font-stat">Elite Eight (Regional Finals)</h3>
+          {/* Elite Eight */}
+          <div className="pt-4 mb-4" style={{ borderTop: `1px solid ${sectionDivider}` }}>
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 font-stat" style={{ color: labelColor }}>Elite Eight (Regional Finals)</h3>
             <div className="grid grid-cols-1 gap-3">
-              <MatchupCard matchup={region.regionalFinals} color={region.color} onTeamClick={onTeamClick} />
+              <MatchupCard matchup={region.regionalFinals} color={region.color} onTeamClick={onTeamClick} isDark={isDark} />
             </div>
           </div>
 
           {/* Predicted Progression Summary */}
-          <div className="border-t border-slate-100 pt-4">
-            <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 font-stat">Predicted Progression Summary</h3>
+          <div className="pt-4" style={{ borderTop: `1px solid ${sectionDivider}` }}>
+            <h3 className="text-xs font-bold uppercase tracking-wider mb-3 font-stat" style={{ color: labelColor }}>Predicted Progression Summary</h3>
             <div className="grid grid-cols-3 gap-3">
               {/* Sweet 16 */}
               <div>
-                <div className="text-xs font-semibold text-slate-600 mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>Sweet 16 (4 teams per region)</div>
+                <div className="text-xs font-semibold mb-2" style={{ fontFamily: 'Oswald, sans-serif', color: subLabelColor }}>Sweet 16 (4 teams per region)</div>
                 <div className="space-y-1">
                   {region.sweetSixteen.map((team) => (
                     <div key={team} className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold text-white" style={{ backgroundColor: region.color, fontFamily: 'Oswald, sans-serif' }}>
@@ -146,7 +186,7 @@ function RegionSection({ region, onTeamClick }: { region: RegionData; onTeamClic
               </div>
               {/* Elite 8 Teams */}
               <div>
-                <div className="text-xs font-semibold text-slate-600 mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>Elite Eight (2 teams per region)</div>
+                <div className="text-xs font-semibold mb-2" style={{ fontFamily: 'Oswald, sans-serif', color: subLabelColor }}>Elite Eight (2 teams per region)</div>
                 <div className="space-y-1">
                   {region.eliteEightMatchups.map((matchup) => {
                     const winner = matchup.predictedWinner === 1 ? matchup.team1.shortName : matchup.team2.shortName;
@@ -160,7 +200,7 @@ function RegionSection({ region, onTeamClick }: { region: RegionData; onTeamClic
               </div>
               {/* Final Four */}
               <div>
-                <div className="text-xs font-semibold text-slate-600 mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>Final Four (1 team per region)</div>
+                <div className="text-xs font-semibold mb-2" style={{ fontFamily: 'Oswald, sans-serif', color: subLabelColor }}>Final Four (1 team per region)</div>
                 <div className="px-2 py-1 rounded-md text-xs font-bold text-white text-center animate-pulse-glow" style={{ backgroundColor: region.color, fontFamily: 'Oswald, sans-serif', boxShadow: `0 0 12px ${region.color}40` }}>
                   🏆 {region.finalFour}
                 </div>
@@ -174,10 +214,15 @@ function RegionSection({ region, onTeamClick }: { region: RegionData; onTeamClic
 }
 
 export default function BracketView({ onTeamClick }: BracketViewProps) {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
+  const introBg = isDark ? 'oklch(0.20 0.02 240)' : 'oklch(0.25 0.02 240)';
+
   return (
     <div>
       {/* Intro Banner */}
-      <div className="bg-slate-800 rounded-xl p-4 mb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="rounded-xl p-4 mb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4" style={{ backgroundColor: introBg }}>
         <div>
           <h2 className="text-white text-lg font-bold" style={{ fontFamily: 'Oswald, sans-serif' }}>
             STATISTICAL BRACKET PREDICTIONS
@@ -201,7 +246,7 @@ export default function BracketView({ onTeamClick }: BracketViewProps) {
 
       {/* Region Brackets */}
       {regions.map((region) => (
-        <RegionSection key={region.name} region={region} onTeamClick={onTeamClick} />
+        <RegionSection key={region.name} region={region} onTeamClick={onTeamClick} isDark={isDark} />
       ))}
 
       {/* Final Four */}
@@ -292,11 +337,20 @@ export default function BracketView({ onTeamClick }: BracketViewProps) {
       </div>
 
       {/* Methodology Note */}
-      <div className="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-4">
-        <h3 className="text-blue-800 font-bold text-sm mb-2" style={{ fontFamily: 'Oswald, sans-serif' }}>
+      <div
+        className="mt-6 rounded-xl p-4"
+        style={{
+          backgroundColor: isDark ? 'oklch(0.18 0.04 264)' : 'oklch(0.96 0.02 264)',
+          border: `1px solid ${isDark ? 'oklch(0.30 0.06 264)' : 'oklch(0.82 0.06 264)'}`,
+        }}
+      >
+        <h3
+          className="font-bold text-sm mb-2"
+          style={{ fontFamily: 'Oswald, sans-serif', color: isDark ? 'oklch(0.75 0.12 264)' : 'oklch(0.35 0.15 264)' }}
+        >
           📐 PREDICTION METHODOLOGY
         </h3>
-        <p className="text-blue-700 text-xs leading-relaxed">
+        <p className="text-xs leading-relaxed" style={{ color: isDark ? 'oklch(0.65 0.08 264)' : 'oklch(0.40 0.12 264)' }}>
           Bracket predictions are based on <strong>KenPom adjusted efficiency ratings</strong> (offensive and defensive efficiency per 100 possessions),
           team win-loss records, injury reports, conference strength, and expert analysis from The Ringer and NCAA.com.
           Win probabilities are calculated from KenPom differential — a difference of 10 KenPom spots roughly translates to a 25% win probability edge.
