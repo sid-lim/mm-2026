@@ -250,8 +250,8 @@ export const regions: RegionData[] = [
       {
         id: 'W-R32-1',
         team1: { seed: 1, name: 'Arizona', shortName: 'Arizona', record: '32-2', kenpom: 3, offKenpom: 7, defKenpom: 2, conference: 'Big 12' },
-        team2: { seed: 8, name: 'Villanova', shortName: 'Villanova', record: '21-13', kenpom: 33, offKenpom: 42, defKenpom: 35, conference: 'Big East' },
-        predictedWinner: 1, winProb1: 75,
+        team2: { seed: 9, name: 'Utah State', shortName: 'Utah St.', record: '24-10', kenpom: 32, offKenpom: 28, defKenpom: 54, conference: 'Mountain West' },
+        predictedWinner: 1, winProb1: 72,
       },
       {
         id: 'W-R32-2',
@@ -363,8 +363,8 @@ export const regions: RegionData[] = [
       {
         id: 'S-R32-1',
         team1: { seed: 1, name: 'Florida', shortName: 'Florida', record: '26-7', kenpom: 4, offKenpom: 8, defKenpom: 5, conference: 'SEC' },
-        team2: { seed: 8, name: 'Clemson', shortName: 'Clemson', record: '22-13', kenpom: 36, offKenpom: 71, defKenpom: 19, conference: 'ACC' },
-        predictedWinner: 1, winProb1: 76,
+        team2: { seed: 9, name: 'Iowa', shortName: 'Iowa', record: '21-13', kenpom: 25, offKenpom: 31, defKenpom: 30, conference: 'Big Ten' },
+        predictedWinner: 1, winProb1: 98,
       },
       {
         id: 'S-R32-2',
@@ -380,9 +380,9 @@ export const regions: RegionData[] = [
       },
       {
         id: 'S-R32-4',
-        team1: { seed: 7, name: "Saint Mary's", shortName: "St. Mary's", record: '26-8', kenpom: 23, offKenpom: 41, defKenpom: 20, conference: 'WCC' },
+        team1: { seed: 10, name: 'Texas A&M', shortName: 'Texas A&M', record: '20-14', kenpom: 40, offKenpom: 48, defKenpom: 38, conference: 'SEC' },
         team2: { seed: 2, name: 'Houston', shortName: 'Houston', record: '27-7', kenpom: 6, offKenpom: 17, defKenpom: 6, conference: 'Big 12' },
-        predictedWinner: 2, winProb1: 22,
+        predictedWinner: 2, winProb1: 2,
       },
     ],
     eliteEightMatchups: [
@@ -476,8 +476,8 @@ export const regions: RegionData[] = [
       {
         id: 'M-R32-1',
         team1: { seed: 1, name: 'Michigan', shortName: 'Michigan', record: '31-3', kenpom: 2, offKenpom: 4, defKenpom: 3, conference: 'Big Ten' },
-        team2: { seed: 8, name: 'Georgia', shortName: 'Georgia', record: '21-14', kenpom: 31, offKenpom: 15, defKenpom: 82, conference: 'SEC' },
-        predictedWinner: 1, winProb1: 77,
+        team2: { seed: 9, name: 'Saint Louis', shortName: 'Saint Louis', record: '22-12', kenpom: 39, offKenpom: 46, defKenpom: 40, conference: 'Atlantic 10' },
+        predictedWinner: 1, winProb1: 98,
       },
       {
         id: 'M-R32-2',
@@ -493,9 +493,9 @@ export const regions: RegionData[] = [
       },
       {
         id: 'M-R32-4',
-        team1: { seed: 7, name: 'Kentucky', shortName: 'Kentucky', record: '19-15', kenpom: 28, offKenpom: 35, defKenpom: 31, conference: 'SEC' },
+        team1: { seed: 10, name: 'Santa Clara', shortName: 'Santa Clara', record: '24-10', kenpom: 35, offKenpom: 21, defKenpom: 81, conference: 'WCC' },
         team2: { seed: 2, name: 'Iowa State', shortName: 'Iowa State', record: '27-7', kenpom: 7, offKenpom: 23, defKenpom: 4, conference: 'Big 12' },
-        predictedWinner: 2, winProb1: 18,
+        predictedWinner: 2, winProb1: 2,
       },
     ],
     eliteEightMatchups: [
