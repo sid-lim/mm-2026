@@ -350,8 +350,8 @@ export const regions: RegionData[] = [
     regionalFinals: {
       id: 'S-RF-1',
       team1: { seed: 1, name: 'Florida', shortName: 'Florida', record: '26-7', kenpom: 4, offKenpom: 8, defKenpom: 5, conference: 'SEC' },
-      team2: { seed: 2, name: 'Houston', shortName: 'Houston', record: '27-7', kenpom: 6, offKenpom: 17, defKenpom: 6, conference: 'Big 12' },
-      predictedWinner: 1, winProb1: 62,
+      team2: { seed: 3, name: 'Illinois', shortName: 'Illinois', record: '24-12', kenpom: 5, offKenpom: 1, defKenpom: 27, conference: 'Big Ten' },
+      predictedWinner: 1, winProb1: 52,
     },
     finalFourMatchup: {
       id: 'FF-1',
@@ -396,7 +396,7 @@ export const regions: RegionData[] = [
         id: 'S-E8-2',
         team1: { seed: 3, name: 'Illinois', shortName: 'Illinois', record: '24-12', kenpom: 5, offKenpom: 1, defKenpom: 27, conference: 'Big Ten' },
         team2: { seed: 2, name: 'Houston', shortName: 'Houston', record: '27-7', kenpom: 6, offKenpom: 17, defKenpom: 6, conference: 'Big 12' },
-        predictedWinner: 2, winProb1: 52,
+        predictedWinner: 1, winProb1: 52,
       },
     ],
     eliteEightWinner: 'Florida',
@@ -463,8 +463,8 @@ export const regions: RegionData[] = [
     regionalFinals: {
       id: 'M-RF-1',
       team1: { seed: 1, name: 'Michigan', shortName: 'Michigan', record: '31-3', kenpom: 2, offKenpom: 4, defKenpom: 3, conference: 'Big Ten' },
-      team2: { seed: 2, name: 'Iowa State', shortName: 'Iowa State', record: '27-7', kenpom: 7, offKenpom: 23, defKenpom: 4, conference: 'Big 12' },
-      predictedWinner: 1, winProb1: 68,
+      team2: { seed: 3, name: 'Virginia', shortName: 'Virginia', record: '24-10', kenpom: 19, offKenpom: 34, defKenpom: 16, conference: 'ACC' },
+      predictedWinner: 1, winProb1: 92,
     },
     finalFourMatchup: {
       id: 'FF-2',
@@ -509,7 +509,7 @@ export const regions: RegionData[] = [
         id: 'M-E8-2',
         team1: { seed: 3, name: 'Virginia', shortName: 'Virginia', record: '24-10', kenpom: 19, offKenpom: 34, defKenpom: 16, conference: 'ACC' },
         team2: { seed: 2, name: 'Iowa State', shortName: 'Iowa State', record: '27-7', kenpom: 7, offKenpom: 23, defKenpom: 4, conference: 'Big 12' },
-        predictedWinner: 2, winProb1: 58,
+        predictedWinner: 1, winProb1: 58,
       },
     ],
     eliteEightWinner: 'Michigan',
